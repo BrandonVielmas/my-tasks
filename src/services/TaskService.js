@@ -1,14 +1,7 @@
-import axios from "axios";
+import { RequestService } from "./RequestService";
 
-const urlBase = "https://localhost:7255/api/v1/Tasks";
-
-export class TaskService {
-    
-    Post(newTask) {
-        return axios.post(urlBase, newTask);
-    }
-
-    Delete(idTask) {
-        return axios.delete(urlBase + "/" + idTask);
+export class TaskService extends RequestService {
+    constructor() {
+        super("Tasks");
     }
 }

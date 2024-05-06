@@ -40,7 +40,7 @@ export function Column({ description, color, elements, id, handleAddTask, handle
           <div>
             <h1>Esta es la columna de: {description}</h1>
             <button onClick={() => {
-              handleOpenModal(true);
+              handleAddTask(id);
             }}>Agregar element</button>
           </div>
             <div id={"elements-" + id}>

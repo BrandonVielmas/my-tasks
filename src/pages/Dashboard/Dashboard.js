@@ -43,7 +43,7 @@ export function Dashboard() {
         const updatedColumns = prevColumns.map(column => {
           if(column.id == columnId) {
             column.tasks = column.tasks.filter(task => task.id != taskId);
-            taskService.Delete(taskId).then(res => {
+            taskService.DeleteById(taskId).then(res => {
               if(res) {
                 console.log("Task " + taskId + " borrada.")
               }

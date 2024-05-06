@@ -1,10 +1,7 @@
-import axios from "axios";
+import { RequestService } from "./RequestService";
 
-const urlBase = "https://localhost:7255/api/v1/Columns";
-
-export class ColumnService {
-    
-    GetAll() {
-        return axios.get(urlBase);
+export class ColumnService extends RequestService {
+    constructor() {
+        super("Columns");
     }
 }
