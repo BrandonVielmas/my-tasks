@@ -2,7 +2,8 @@ import React, { useState, useEffect }  from 'react'
 import { Task } from './Task';
 import { ModalAddTask } from './ModalAddTask';
 
-export function Column({ description, color, elements, id, handleAddTask, handleDeleteTask }) {
+export function Column({ description, color, elements, id, handleAddTask, handleDeleteTask, handleUpdateTaskOfColumn }) {
+
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,14 +24,18 @@ export function Column({ description, color, elements, id, handleAddTask, handle
       .dataTransfer
       .getData('text');
     
-    const draggableElement = document.getElementById(id);
+    const regex = /(\d+)/g;
+    
     const dropZone = event.target;
-  
-    const hijo = dropZone.children[1];
-  
-    hijo.appendChild(draggableElement);
+
+    let idTask = +id.match(regex);
+    let idColumn = +dropZone.children[1].id.match(regex);
     
     event.dataTransfer.clearData();
+
+    handleUpdateTaskOfColumn(idTask, idColumn);
+
+    
   }
 
     return (

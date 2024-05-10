@@ -35,6 +35,34 @@ export function Dashboard() {
         }
       })
     }
+
+    function handleUpdateTaskOfColumn(idTask, idColumn) {
+      setColumns(prevColumns => {
+          const updatedColumns = prevColumns.map(column => {
+              if (column.id === idColumn) {
+                  const taskToMove = prevColumns
+                      .flatMap(column => column.tasks)
+                      .find(task => task.id === idTask);
+                  if (taskToMove) {
+                      prevColumns.forEach(column => {
+                          column.tasks = column.tasks.filter(task => task.id !== idTask);
+                      });
+                      column.tasks.push(taskToMove);
+                      taskService.UpdateTaskOfColumn(idTask, idColumn).then(res => {
+                        if(res) {
+                          console.log(`La tarea ${idTask} se movió a la columna ${idColumn}.`);
+                        }
+                      })
+                  } else {
+                      console.error(`No se encontró la tarea con el ID ${idTask}.`);
+                  }
+              }
+              return column;
+          });
+          return updatedColumns;
+      });
+  }
+  
   
     function handleDeleteTask(taskId, columnId) {
   
@@ -57,32 +85,6 @@ export function Dashboard() {
       })
     }
   
-    // const addElements = (id) => {
-  
-    //   const newElement = {
-    //     id: uuidv4(),
-    //     title: "Test",
-    //     description: "Prueba"
-    //   }
-  
-    //   // Actualiza el estado para agregar el nuevo elemento
-    //   setElements(prevElements => {
-    //     // Crea una copia del array de elementos para no mutar el estado directamente
-    //     const updatedElements = [...prevElements];
-  
-    //     // Encuentra el índice del objeto en el array de elementos
-    //     const index = updatedElements.findIndex(item => item.id === id);
-  
-    //     // Si se encuentra el índice, agrega el nuevo elemento al array de elementos del objeto
-    //     if (index !== -1) {
-    //       updatedElements[index].elements.push(newElement);
-    //     }
-  
-    //     // Devuelve el nuevo array de elementos actualizado
-    //     return updatedElements;
-    //   });
-    // }
-  
      return(
       <>
         <h1>Kanban</h1>
@@ -93,6 +95,7 @@ export function Dashboard() {
               handleDeleteTask={(taskId) => handleDeleteTask(taskId, item.id)} 
               id={"column-" + item.id} 
               handleAddTask={() => handleAddTask(item.id)} 
+              handleUpdateTaskOfColumn={handleUpdateTaskOfColumn}
               elements={item.tasks} 
               color={item.color} 
               description={item.description} />
