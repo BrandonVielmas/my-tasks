@@ -3,15 +3,24 @@ import { ColumnService } from "../../services/ColumnService";
 import { TaskService } from "../../services/TaskService";
 import { Column } from "./components/Column";
 import './style.css'
+import { useNavigate } from "react-router-dom";
 
 export function Dashboard() {
 
     const[columns, setColumns] = useState([]);
+    const navigate = useNavigate();
   
     const columnService = new ColumnService();
     const taskService = new TaskService();
   
     useEffect(() => {
+      
+      const isLogged = localStorage.getItem('EstaDentro');
+
+      if(!isLogged) {
+        navigate("/loggin");
+      }
+
       getColumns();
     }, []);
   
@@ -84,10 +93,16 @@ export function Dashboard() {
   
       })
     }
+
+    function handleBtnSalir() {
+      localStorage.removeItem('EstaDentro');
+      navigate("/loggin");
+  }
   
      return(
       <>
         <h1>Kanban</h1>
+        <button onClick={() => handleBtnSalir()}>Salir </button>
         <div id="container">
           {columns.map((item) => {
             return <Column 
