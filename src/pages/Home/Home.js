@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../Contexts/UserContext";
 import { InfoBoard } from "./components/InfoBoard";
@@ -9,6 +9,7 @@ export function Home() {
     const navigate = useNavigate();
     const { userData } = useContext(UserContext);
     const [menuInfoIsOpen, setMenuInfoIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
         const isLogged = localStorage.getItem('EstaDentro');
@@ -19,6 +20,13 @@ export function Home() {
         console.log(userData)
     }, [])
 
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+    }, [])
+
     function handleBtnSalir() {
         localStorage.removeItem('EstaDentro');
         localStorage.removeItem('userData');
@@ -27,11 +35,17 @@ export function Home() {
 
     function handleBtnMenuInfo() {
         setMenuInfoIsOpen(!menuInfoIsOpen);
-    }    
+    }
+
+    function handleClickOutside(event) {
+        if(dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setMenuInfoIsOpen(false);
+        }
+    }
 
     return(
         <>
-            <div className="dropdown">
+            <div className="dropdown" ref={dropdownRef}>
                 <button onClick={handleBtnMenuInfo}>O</button>
                 {menuInfoIsOpen && (
                     <div className="dropdown-content">
@@ -49,7 +63,7 @@ export function Home() {
             <h2>Tableros</h2>
             <div id="container-boards">
                 {userData && userData.boards && userData.boards.map((board) => (
-                    <InfoBoard key={board.id} name={board.name} description={board.description} />
+                    <InfoBoard key={board.id} id={board.id} name={board.name} description={board.description} />
                 ))}
             </div>
         </>
