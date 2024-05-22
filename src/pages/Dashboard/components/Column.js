@@ -1,8 +1,9 @@
 import React, { useState, useEffect }  from 'react'
 import { Task } from './Task';
 import { ModalAddTask } from './ModalAddTask';
+import '../style.css';
 
-export function Column({ description, color, elements, id, handleAddTask, handleDeleteTask, handleUpdateTaskOfColumn }) {
+export function Column({ description, elements, id, handleAddTask, handleDeleteTask, handleUpdateTaskOfColumn }) {
 
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,6 +21,7 @@ export function Column({ description, color, elements, id, handleAddTask, handle
   }
   
   function onDrop(event) {
+    console.log(event)
     const id = event
       .dataTransfer
       .getData('text');
@@ -41,7 +43,7 @@ export function Column({ description, color, elements, id, handleAddTask, handle
     return (
       <>
         <ModalAddTask isOpen={isModalOpen} onClose={handleCloseModal} />
-        <div onDragOver={onDragOver} onDrop={onDrop} style={{ backgroundColor: color }}>
+        <div onDragOver={onDragOver} onDrop={onDrop}>
           <div>
             <h1>Esta es la columna de: {description}</h1>
             <button onClick={() => {

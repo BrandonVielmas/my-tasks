@@ -10,7 +10,6 @@ export function InfoBoard(props) {
     const { userData } = useContext(UserContext);
 
     function handleGoToBoard() {
-        console.log(id, userData);
         navigate(`/view-board?board=${id}&user=${userData.userId}`);
     }
 
