@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../Contexts/UserContext";
 import { InfoBoard } from "./components/InfoBoard";
@@ -8,8 +8,6 @@ export function Home() {
 
     const navigate = useNavigate();
     const { userData } = useContext(UserContext);
-    const [menuInfoIsOpen, setMenuInfoIsOpen] = useState(false);
-    const dropdownRef = useRef(null);
 
     useEffect(() => {
         const isLogged = localStorage.getItem('EstaDentro');
@@ -20,42 +18,8 @@ export function Home() {
         console.log(userData)
     }, [])
 
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        }
-    }, [])
-
-    function handleBtnSalir() {
-        localStorage.removeItem('EstaDentro');
-        localStorage.removeItem('userData');
-        navigate("/loggin");
-    }
-
-    function handleBtnMenuInfo() {
-        setMenuInfoIsOpen(!menuInfoIsOpen);
-    }
-
-    function handleClickOutside(event) {
-        if(dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-            setMenuInfoIsOpen(false);
-        }
-    }
-
     return(
         <>
-            <div className="dropdown" ref={dropdownRef}>
-                <button onClick={handleBtnMenuInfo}>O</button>
-                {menuInfoIsOpen && (
-                    <div className="dropdown-content">
-                        <p>{userData && userData.fullName}</p>
-                        <p>Ajustes</p>
-                        <button onClick={() => handleBtnSalir()}>Salir </button>
-                    </div>
-                )}
-            </div>
-
             <div>
                 <h1>Home</h1>
             </div>

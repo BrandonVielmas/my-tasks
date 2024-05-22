@@ -4,6 +4,7 @@ import { Loggin } from "./pages/Loggin/Loggin";
 import { Home } from "./pages/Home/Home";
 import { UserProvider } from "./Contexts/UserContext";
 import { Board } from "./pages/Board/Board";
+import { NavBar } from "./components/NavBar";
 
 export default function App() {
   return (
@@ -20,13 +21,6 @@ export default function App() {
         </UserProvider>
       </Router>
   );
-}
-
-export function NavBar() {
-
-  return(
-    <h1>Esto esta en todas las paginas</h1>
-  )
 }
 
 export function WithNavbar() {
