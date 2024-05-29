@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BoardService } from "../../services/BoardService";
 import './style.css'
 import { Column } from "../Dashboard/components/Column";
@@ -11,18 +11,24 @@ export function Board() {
     const[columns, setColumns] = useState([]);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const boardId = queryParams.get('board');
-    const userId = queryParams.get('user');
+    const boardId = queryParams.get('board') || null;
+    const userId = queryParams.get('user') || null;
+    const navigate = useNavigate();
 
     const boardService = new BoardService();
     const taskService = new TaskService();
 
     useEffect(() => {
+
+        if(boardId == null || userId == null) {
+          navigate('/');
+          return;
+        }
+
         boardService.GetBoardByUserId(boardId, userId).then(res => {
             if(res) {
                 setBoard(res.data);
                 setColumns(res.data.columns)
-                console.log(res.data);
             }
         })
     }, [])

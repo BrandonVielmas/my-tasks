@@ -1,13 +1,11 @@
 import React, { useRef, useState, useEffect, useContext } from "react"
 import UserContext from "../Contexts/UserContext";
-import { useNavigate } from "react-router-dom";
 
 export function NavBar() {
 
     const dropdownRef = useRef(null);
     const [menuInfoIsOpen, setMenuInfoIsOpen] = useState(false);
-    const { userData } = useContext(UserContext);
-    const navigate = useNavigate();
+    const { userData, logoutUser } = useContext(UserContext);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
@@ -27,9 +25,7 @@ export function NavBar() {
     }
 
     function handleBtnSalir() {
-        localStorage.removeItem('EstaDentro');
-        localStorage.removeItem('userData');
-        navigate("/loggin");
+        logoutUser();
     }
 
     return(

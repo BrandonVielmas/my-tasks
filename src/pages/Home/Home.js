@@ -1,20 +1,11 @@
-import React, { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
 import UserContext from "../../Contexts/UserContext";
 import { InfoBoard } from "./components/InfoBoard";
 import './style.css'
 
 export function Home() {
 
-    const navigate = useNavigate();
     const { userData } = useContext(UserContext);
-
-    useEffect(() => {
-        const isLogged = localStorage.getItem('EstaDentro');
-        if(!isLogged) {
-            navigate("/loggin");
-        }
-    }, [])
 
     return(
         <>
