@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { Outlet, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { Loggin } from "./pages/Loggin/Loggin";
 import { Home } from "./pages/Home/Home";
